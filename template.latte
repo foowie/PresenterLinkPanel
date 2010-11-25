@@ -1,0 +1,42 @@
+<div>
+	<div style="font-weight: bold;">Presenter <a href="{$presenterClass|editorLink}">{$presenterClass->name}</a>:</div>
+	<p>
+		Aktuální akce: <code>{$actionName}</code>
+		<br>
+		Soubor presenteru: <a href="{$presenterClass|editorLink}"><code>{$presenterClass->fileName|substr:$appDirPathLength}</code></a>
+		<br>
+		Soubor template: <a href="{$templateFileName|editorLink}"><code>{$templateFileName|substr:$appDirPathLength}</code></a>
+	</p>
+
+	<p>
+		{foreach $interestedMethods as $method}
+			Metoda <a href="{$method|editorLink}"><code>{$method->name}</code></a> [{$method->startLine}-{$method->endLine}]
+			<br n:if="!$iterator->last">
+		{/foreach}
+	</p>
+
+	<p>
+		<div style="font-weight: bold;">Rodičovské třídy:</div>
+		<ul style="margin-left: 25px;">
+			<li n:foreach="$parentClasses as $class">
+				<a href="{$class["reflection"]|editorLink}"><code>{$class["reflection"]->name}</code></a>
+					{if count($class["methods"]) > 0}
+						<span style="font-size: 80%;">(
+							{foreach $class["methods"] as $method}
+								<a href="{$method|editorLink}">{$method->name}</a>
+							{/foreach}
+						)</span>
+					{/if}
+			</li>
+		</ul>
+	</p>
+
+	<p>
+		<div style="font-weight: bold;">Komponenty:</div>
+		<ul style="margin-left: 25px;">
+			<li n:foreach="$componentMethods as $method">
+				<a href="{$method|editorLink}"><code>{$method->name|substr:15}</code></a>
+			</li>
+		</ul>
+	</p>
+</div>
