@@ -8,14 +8,10 @@ Panel do debug baru Nette Frameworku
 Tento panel generuje odkazy na otevření aktuálního presenteru/templatu ve Vašem editoru.
 Pro otevření souboru je nutné mít zaregistrován handler, návod jak na to lze nalézt na http://wiki.nette.org/cs/howto-editor-link .
 
-Registrovat PresenterLinkPanel lze buď v bootstrapu/basepresenteru a nebo v config.ini
+Registrovat PresenterLinkPanel lze buď v bootstrapu/basepresenteru
 
 bootstrap/basepresenter:
-	new \DebugPanel\PresenterLinkPanel($presenter); //Proměnná $presenter je nepovinná.
-
-config.ini:
-	service.DebugPanel-PresenterLinkPanel.factory = \DebugPanel\PresenterLinkPanel
-	service.DebugPanel-PresenterLinkPanel.run = true
+	new \DebugPanel\PresenterLinkPanel($presenter);
 
 
 
