@@ -48,14 +48,22 @@ class PresenterLinkPanel extends Object implements IBarPanel {
 		$method = $this->getActionMethodReflection();
 		if($method === null)
 			$method = $this->getRenderMethodReflection();
-		$link = self::getEditorLink($this->getPresenter()->getReflection()->getFileName(), $method === null ? $this->getPresenter()->getReflection()->getStartLine() : $method->getStartLine());
+		$presenter = self::getEditorLink($this->getPresenter()->getReflection()->getFileName(), $method === null ? $this->getPresenter()->getReflection()->getStartLine() : $method->getStartLine());
+		$template = self::getEditorLink($this->getTemplateFileName());
 		return Html::el("span")
-			->onclick("window.location='$link';event.stopPropagation();")
-			->style("cursor: pointer; text-align: center; padding-left: 0; padding-right: 1px;")
-			->title("Otevřít presenter [" . $this->getPresenter()->getName() . "]")
 			->add(
-				Html::el("img")->style("margin: 0; padding: 0;")
+				Html::el("span")->onclick("window.location='$presenter';event.stopPropagation();")
+				->style("cursor: pointer; text-align: center; padding: 0 10px; border-left: 1px gray solid; border-right: 1px gray solid;")
+				->title("Otevřít presenter [" . $this->getPresenter()->getName() . "]")
+				->add("P")
+			)->add(
+				Html::el("img")->style("margin: 0; padding: 0 10px;")
 				->src("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABIAAAAQCAYAAAAbBi9cAAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9oLGQwkDaPz2JIAAAPMSURBVDjLLc/Lb1RlHIfx7/u+55z3nLl1emcivVgteMGCBCGGVJuoCVHDwpUkGl0ajQvDxpgY2LkSBSQxKkoEjBF15YXghYWJorEKxhSV2kLbGUpnOnMuM2fO5T3vzwX+Ac8neRiICsCj6RLMkdb1nY9PVcYFdLuDdHAZyZCLpDdB0tbor8Ww3ll//5uzbPkRtA/ixxS4XwNICCB2YBF24zMMv7X/1My7x7989tr84uhdt002mitROr1r999bdzywiCSKUFEdcM8DLi4Ar15ZAcJ5IJ0BNGMgRh1UoA4//OHp759/at9eycsDRfhtgeJI5/NjJ0vb7rh3beLuCRcbZAetNYV8VoP0L6H73Dl8DYUn0LgJ+W888/qBj1/af2h/Ah2Ngps5JMpAJDOQk548dkL2lAuKCUVB1yNbmlG3E7s7No2d3zxz8RD8n6psBLEBq3/LYFmW4TYEsk4RUkj3RpOXx+7RiGP76Vde0Ah9AckIgml0fHbqyHuFC7OXH7vwW6FHLuFlIlo2kKgNxYJtgWXW7K8/y8v/zomh4Qquf/WdkE4ZllFE2PZJ8BSOLdDf029rJHrj6Fh+9tLSttVk5/STwEcG7JIZE0TQ8oyrqzW2eesWum/3HpZGCqZdASABaAbEQOoCpoXp9TZg99EvfxwuLNfDacbYJxyMOTnHZi23ZaQqZtu3b4PWLZh2HknmAojguVUg8wFTACplK9VlDtc1GYfZ9L1xAJIjRklyIfz6mhjqL5NABs4ZQv8GjCwF0hAlRwKUAlEAtb4KCwo/nP9WkkoEFwIAYEAYVru5bq1JT4xMDgEqZeR7yLEykBFCtw5QBsa6MKCRxQmC9ToatSrveq453FdqAog5MpWgG1HYaGJy/FYNbpBuBYAXIFypIccYcqaEowETgM05Us9jzVqVqzgUm0Yq14hIGVDZ9cnbN9er6wvDgMPRJlBqcpANQwN+1UMu5yCM2uBCgRGw1gioHWnK53s7EyNDV26uLTT+qozeKc9f/PPBq29/mut0XEaakWA9JFiOOFlk501EsceESczJO1RbqbMgMJNib99KFly9dBOa2P3FoJNeqfwzby4uzW9pK5Q4DMQBoDOWCcYz5iUsyjKTC81lUUMbQ7qwcbDWUy6dnfv9xDJjjBvDB6aqH7yJWjA1tXbL2MCUqdL+Picfd1edMKjrRMVcJVBWlg8du8/qMfLFASaLstg7frm6a8/x144WfZw5SgBRH4gGQFQCTeX3EQaOEEogYjMg4yDIAMgCkQF6UZ6mubFztLr3DNFD/7cGEeE/8rvtxQHf/o4AAAAASUVORK5CYII=")
+			)->add(
+				Html::el("span")->onclick("window.location='$template';event.stopPropagation();")
+				->style("cursor: pointer; text-align: center; padding: 0 10px; border-left: 1px gray solid; border-right: 1px gray solid;")
+				->title("Otevřít template [" . $this->getPresenter()->getAction() . "]")
+				->add("T")
 			);
 	}
 
@@ -69,6 +77,7 @@ class PresenterLinkPanel extends Object implements IBarPanel {
 		$template->presenterClass = $this->getPresenter()->getReflection();
 		$template->actionName = $this->getPresenter()->getAction(true);
 		$template->templateFileName = $this->getTemplateFileName();
+		$template->layoutFileName = $this->getLayoutFileName();
 		$template->appDirPathLength = strlen(realpath($this->getAppDir()));
 
 
@@ -97,7 +106,7 @@ class PresenterLinkPanel extends Object implements IBarPanel {
 		$template = $this->getPresenter()->getTemplate();
 		$templateFile = $template->getFile();
 		if ($template instanceof IFileTemplate && !$template->getFile()) {
-			$files = $this->getPresenter()->formatTemplateFiles($this->getPresenter()->getName(), $this->getPresenter()->getView());
+			$files = $this->getPresenter()->formatTemplateFiles();
 			foreach ($files as $file) {
 				if (is_file($file)) {
 					$templateFile = $file;
@@ -110,6 +119,24 @@ class PresenterLinkPanel extends Object implements IBarPanel {
 		if($templateFile !== null)
 			$templateFile = realpath($templateFile);
 		return $templateFile;
+	}
+
+	private function getLayoutFileName() {
+		$layoutFile = $this->getPresenter()->getLayout();
+		if($layoutFile === null) {
+			$files = $this->getPresenter()->formatLayoutTemplateFiles();
+			foreach ($files as $file) {
+				if (is_file($file)) {
+					$layoutFile = $file;
+					break;
+				}
+			}
+			if (!$layoutFile)
+				$layoutFile = str_replace($this->getAppDir(), "\xE2\x80\xA6", reset($files));
+		}
+		if($layoutFile !== null)
+			$layoutFile = realpath($layoutFile);
+		return $layoutFile;
 	}
 
 	private function getActionMethodName() {
