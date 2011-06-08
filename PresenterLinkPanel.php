@@ -156,11 +156,17 @@ class PresenterLinkPanel extends Object implements IDebugPanel {
 	}
 
 	private function getComponentMethods() {
+		$components = (array)$this->getPresenter()->getComponents(false);
 		$methods = $this->getPresenter()->getReflection()->getMethods();
 		$result = array();
-		foreach($methods as $method)
-			if(strpos($method->getName(), "createComponent") === 0 && strlen($method->getName()) > 15)
-					$result[] = $method;
+		foreach($methods as $method) {
+			if(strpos($method->getName(), "createComponent") === 0 && strlen($method->getName()) > 15) {
+					$componentName = substr($method->getName(), 15);
+					$componentName{0} = strtolower($componentName{0});
+					$isUsed = isset($components[$componentName]);
+					$result[] = array("method" => $method, "isUsed" => $isUsed);
+			}
+		}
 		return $result;
 	}
 

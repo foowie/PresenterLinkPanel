@@ -35,7 +35,7 @@
 		<div style="font-weight: bold;">Komponenty:</div>
 		<ul style="margin-left: 25px;">
 			<li n:foreach="$componentMethods as $method">
-				<a href="{$method|editorLink}"><code>{$method->name|substr:15}</code></a>
+				<a href="{$method['method']|editorLink}"><code>{$method['method']->name|substr:15}{if $method['isUsed']} <--{/if}</code></a>
 			</li>
 		</ul>
 	</p>
