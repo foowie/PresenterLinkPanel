@@ -8,18 +8,17 @@
 namespace DebugPanel;
 
 use Nette\Object;
-use Nette\IDebugPanel;
-use Nette\Web\Html;
-use Nette\Application\Presenter;
-use Nette\Debug;
-use Nette\Environment;
-use Nette\Templates\FileTemplate;
-use Nette\Templates\LatteFilter;
-use Nette\Reflection\MethodReflection;
-use Nette\Reflection\ClassReflection;
-use Nette\Templates\IFileTemplate;
+use Nette\Diagnostics\IBarPanel;
+use Nette\Utils\Html;
+use Nette\Application\UI\Presenter;
+use Nette\Diagnostics\Debugger;
+use Nette\Templating\FileTemplate;
+use Nette\Latte\Engine as LatteFilter;
+use Nette\Reflection\Method as MethodReflection;
+use Nette\Reflection\ClassType as ClassReflection;
+use Nette\Templating\IFileTemplate;
 
-class PresenterLinkPanel extends Object implements IDebugPanel {
+class PresenterLinkPanel extends Object implements IBarPanel {
 
 	/** @var Presenter */
 	private $presenter;
@@ -28,15 +27,17 @@ class PresenterLinkPanel extends Object implements IDebugPanel {
 	const PARENTS = 2;
 	const BOTH = 3;
 
-	function __construct(Presenter $presenter = null) {
+	function __construct(Presenter $presenter) {
 		$this->presenter = $presenter;
-		Debug::addPanel($this);
+		Debugger::addPanel($this);
 	}
 
 	public function getPresenter() {
-		if($this->presenter === null)
-			$this->presenter = Environment::getApplication()->getPresenter();
 		return $this->presenter;
+	}
+
+	protected function getAppDir() {
+		return $this->getPresenter()->getContext()->params["appDir"];
 	}
 
 	public function getId() {
@@ -60,7 +61,7 @@ class PresenterLinkPanel extends Object implements IDebugPanel {
 
 
 	public function getPanel() {
-		$template = new FileTemplate(__DIR__ . '/template.latte');
+		$template = new FileTemplate(dirname(__FILE__) . '/template.latte');
 		$template->registerFilter(new LatteFilter());
 		$template->registerHelper("editorLink", callback(__CLASS__, "getEditorLink"));
 		$template->registerHelper("substr", "substr");
@@ -68,7 +69,7 @@ class PresenterLinkPanel extends Object implements IDebugPanel {
 		$template->presenterClass = $this->getPresenter()->getReflection();
 		$template->actionName = $this->getPresenter()->getAction(true);
 		$template->templateFileName = $this->getTemplateFileName();
-		$template->appDirPathLength = strlen(realpath(Environment::getVariable('appDir')));
+		$template->appDirPathLength = strlen(realpath($this->getAppDir()));
 
 
 		$template->interestedMethods = $this->getInterestedMethodReflections();
@@ -104,7 +105,7 @@ class PresenterLinkPanel extends Object implements IDebugPanel {
 				}
 			}
 			if (!$templateFile)
-				$templateFile = str_replace(Environment::getVariable('appDir'), "\xE2\x80\xA6", reset($files));
+				$templateFile = str_replace($this->getAppDir(), "\xE2\x80\xA6", reset($files));
 		}
 		if($templateFile !== null)
 			$templateFile = realpath($templateFile);
@@ -137,7 +138,7 @@ class PresenterLinkPanel extends Object implements IDebugPanel {
 		$interestedMethods = $this->getInterestedMethodNames();
 		$parents = array();
 		$cr = $this->getPresenter()->getReflection()->getParentClass();
-		while($cr !== null && $cr->getShortName() != "Presenter") {
+		while($cr !== null && $cr->getName() != "Presenter" && $cr->getName() != "Nette\Application\UI\Presenter") {
 			$methods = array();
 			foreach($interestedMethods as $methodName => $scope) {
 				if($scope & self::PARENTS && $cr->hasMethod($methodName)) {
@@ -192,7 +193,7 @@ class PresenterLinkPanel extends Object implements IDebugPanel {
 			$file = $file->getFileName();
 		}
 		$line = (int)$line;
-		return strtr(Debug::$editor, array('%file' => $file, '%line' => $line));
+		return strtr(Debugger::$editor, array('%file' => $file, '%line' => $line));
 	}
 
 }
