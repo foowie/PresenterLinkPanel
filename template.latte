@@ -1,24 +1,24 @@
 <div>
 	<div style="font-weight: bold;">Presenter <a href="{$presenterClass|editorLink}">{$presenterClass->name}</a>:</div>
 	<p>
-		Aktuální akce: <code>{$actionName}</code>
+		Current action: <code>{$actionName}</code>
 		<br>
-		Soubor presenteru: <a href="{$presenterClass|editorLink}"><code>{$presenterClass->fileName|substr:$appDirPathLength}</code></a>
+		Presenter file: <a href="{$presenterClass|editorLink}"><code>{$presenterClass->fileName|substr:$appDirPathLength}</code></a>
 		<br>
-		Soubor template: <a href="{$templateFileName|editorLink}"><code>{$templateFileName|substr:$appDirPathLength}</code></a>
+		Template file: <a href="{$templateFileName|editorLink}"><code>{$templateFileName|substr:$appDirPathLength}</code></a>
 		<br>
-		Soubor layoutu: <a href="{$layoutFileName|editorLink}"><code>{$layoutFileName|substr:$appDirPathLength}</code></a>
+		Layout file: <a href="{$layoutFileName|editorLink}"><code>{$layoutFileName|substr:$appDirPathLength}</code></a>
 	</p>
 
 	<p>
 		{foreach $interestedMethods as $method}
-			Metoda <a href="{$method|editorLink}"><code>{$method->name}</code></a> [{$method->startLine}-{$method->endLine}]
+			Method <a href="{$method|editorLink}"><code>{$method->name}</code></a> [{$method->startLine}-{$method->endLine}]
 			<br n:if="!$iterator->last">
 		{/foreach}
 	</p>
 
 	<p>
-		<div style="font-weight: bold;">Rodičovské třídy:</div>
+		<div style="font-weight: bold;">Parent classes:</div>
 		<ul style="margin-left: 25px;">
 			<li n:foreach="$parentClasses as $class">
 				<a href="{$class["reflection"]|editorLink}"><code>{$class["reflection"]->name}</code></a>
@@ -34,7 +34,7 @@
 	</p>
 
 	<p>
-		<div style="font-weight: bold;">Komponenty:</div>
+		<div style="font-weight: bold;">Components:</div>
 		<ul style="margin-left: 25px;">
 			<li n:foreach="$componentMethods as $method">
 				<a href="{$method['method']|editorLink}"><code>{$method['method']->name|substr:15}{if $method['isUsed']} <--{/if}</code></a>

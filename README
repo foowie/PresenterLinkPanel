@@ -4,13 +4,11 @@ PresenterLinkPanel
 Author: Daniel Robenek
 License: MIT
 
-Panel do debug baru Nette Frameworku
-Tento panel generuje odkazy na otevření aktuálního presenteru/templatu ve Vašem editoru.
-Pro otevření souboru je nutné mít zaregistrován handler, návod jak na to lze nalézt na http://wiki.nette.org/cs/howto-editor-link .
+Debug bar panel for Nette Framework
+This panel generates links to open current presenter/template into your preffered text editor.
+To file open into text editor is necessery to register handler, instruction how to setup could be found on http://wiki.nette.org/en/howto-editor-link .
 
-Registrovat PresenterLinkPanel lze buď v bootstrapu/basepresenteru
-
-bootstrap/basepresenter:
+Registration is prefered in bootstrap or base presenter:
 	new \DebugPanel\PresenterLinkPanel($presenter);
 
 

@@ -54,7 +54,7 @@ class PresenterLinkPanel extends Object implements IBarPanel {
 			->add(
 				Html::el("span")->onclick("window.location='$presenter';event.stopPropagation();")
 				->style("cursor: pointer; text-align: center; padding: 0 10px; border-left: 1px gray solid; border-right: 1px gray solid;")
-				->title("Otevřít presenter [" . $this->getPresenter()->getName() . "]")
+				->title("Open presenter [" . $this->getPresenter()->getName() . "]")
 				->add("P")
 			)->add(
 				Html::el("img")->style("margin: 0; padding: 0 10px;")
@@ -62,7 +62,7 @@ class PresenterLinkPanel extends Object implements IBarPanel {
 			)->add(
 				Html::el("span")->onclick("window.location='$template';event.stopPropagation();")
 				->style("cursor: pointer; text-align: center; padding: 0 10px; border-left: 1px gray solid; border-right: 1px gray solid;")
-				->title("Otevřít template [" . $this->getPresenter()->getAction() . "]")
+				->title("Open template [" . $this->getPresenter()->getAction() . "]")
 				->add("T")
 			);
 	}
