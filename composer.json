@@ -1,5 +1,5 @@
 {
-	"name": "s4muel/presenter-link-panel",
+	"name": "Foowie/presenter-link-panel",
 	"description": "This panel generates links to open current presenter/template into your preffered text editor. (Author: Daniel Robenek)",
 	"keywords": ["nette", "debugging", "presenter", "component"],
 	"require": {
