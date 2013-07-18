@@ -1,0 +1,12 @@
+{
+	"name": "s4muel/presenter-link-panel",
+	"description": "This panel generates links to open current presenter/template into your preffered text editor. (Author: Daniel Robenek)",
+	"keywords": ["nette", "debugging", "presenter", "component"],
+	"require": {
+		"php": ">= 5.3.0",
+		"nette/nette": "= 2.0.*"
+	},
+	"autoload": {
+        	"classmap": ["PresenterLinkPanel.php"]
+	}
+}
