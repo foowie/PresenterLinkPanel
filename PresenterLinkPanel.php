@@ -37,7 +37,7 @@ class PresenterLinkPanel extends Object implements IBarPanel {
 	}
 
 	protected function getAppDir() {
-		return $this->getPresenter()->getContext()->params["appDir"];
+		return $this->getPresenter()->getContext()->parameters["appDir"];
 	}
 
 	public function getId() {
