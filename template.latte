@@ -1,19 +1,19 @@
-<h1>Presenter <a href="{$presenterClass|editorLink}">{$presenterClass->name}</a></h1>
+<h1>Presenter <a href="{$presenterClass|editorLink|nosafeurl}">{$presenterClass->name}</a></h1>
 <div>
 	
 	<p>
 		Current action: <code>{$actionName}</code>
 		<br>
-		Presenter file: <a href="{$presenterClass|editorLink}"><code>{$presenterClass->fileName|substr:$appDirPathLength}</code></a>
+		Presenter file: <a href="{$presenterClass|editorLink|nosafeurl}"><code>{$presenterClass->fileName|substr:$appDirPathLength}</code></a>
 		<br>
-		Template file: <a href="{$templateFileName|editorLink}"><code>{$templateFileName|substr:$appDirPathLength}</code></a>
+		Template file: <a href="{$templateFileName|editorLink|nosafeurl}"><code>{$templateFileName|substr:$appDirPathLength}</code></a>
 		<br>
-		Layout file: <a href="{$layoutFileName|editorLink}"><code>{$layoutFileName|substr:$appDirPathLength}</code></a>
+		Layout file: <a href="{$layoutFileName|editorLink|nosafeurl}"><code>{$layoutFileName|substr:$appDirPathLength}</code></a>
 	</p>
 
 	<p>
 		{foreach $interestedMethods as $method}
-			Method <a href="{$method|editorLink}"><code>{$method->name}</code></a> [{$method->startLine}-{$method->endLine}]
+			Method <a href="{$method|editorLink|nosafeurl}"><code>{$method->name}</code></a> [{$method->startLine}-{$method->endLine}]
 			<br n:if="!$iterator->last">
 		{/foreach}
 	</p>
@@ -22,11 +22,11 @@
 		<div style="font-weight: bold;">Parent classes:</div>
 		<ul style="margin-left: 25px;">
 			<li n:foreach="$parentClasses as $class">
-				<a href="{$class["reflection"]|editorLink}"><code>{$class["reflection"]->name}</code></a>
+				<a href="{$class["reflection"]|editorLink|nosafeurl}"><code>{$class["reflection"]->name}</code></a>
 					{if count($class["methods"]) > 0}
 						<span style="font-size: 80%;">(
 							{foreach $class["methods"] as $method}
-								<a href="{$method|editorLink}">{$method->name}</a>
+								<a href="{$method|editorLink|nosafeurl}">{$method->name}</a>
 							{/foreach}
 						)</span>
 					{/if}
@@ -38,7 +38,7 @@
 		<div style="font-weight: bold;">Components:</div>
 		<ul style="margin-left: 25px;">
 			<li n:foreach="$componentMethods as $method">
-				<a href="{$method['method']|editorLink}"><code>{$method['method']->name|substr:15}{if $method['isUsed']} <--{/if}</code></a>
+				<a href="{$method['method']|editorLink|nosafeurl}"><code>{$method['method']->name|substr:15}{if $method['isUsed']} <--{/if}</code></a>
 			</li>
 		</ul>
 	</p>
